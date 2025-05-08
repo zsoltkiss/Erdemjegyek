@@ -1,5 +1,7 @@
 package hu.soter.jbe.grades;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -43,6 +45,56 @@ public class Rogzites {
     // Irja vissza a nevenkent a jegyeket a konzolra, nev: erdemjegy formaban.
     public void jegybeiras() {
 
+        Scanner scanner = new Scanner(System.in);
+
+        // Osztály nevének bekérése
+        System.out.print("Add meg az osztály nevét (pl. 2a): ");
+        String osztalyNev = scanner.nextLine();
+
+        // Beégetett névsor
+        List<String> nevsor = Arrays.asList(
+            "Kiss Gábor",
+            "Nagy Júlia",
+            "Tóth Péter",
+            "Szabó Eszter",
+            "Kovács Bence"
+        );
+
+        // Tároló a jegyeknek
+        Map<String, Integer> jegyek = new LinkedHashMap<>();
+
+        // Érdemjegyek bekérése
+        System.out.println("\nOsztály: " + osztalyNev);
+        System.out.println("Add meg a tanulók érdemjegyeit:");
+
+        for (String nev : nevsor) {
+            int jegy = 0;
+            boolean ervenyes = false;
+
+            while (!ervenyes) {
+                System.out.print(nev + " érdemjegye (1-5): ");
+                try {
+                    jegy = Integer.parseInt(scanner.nextLine());
+                    if (jegy >= 1 && jegy <= 5) {
+                        ervenyes = true;
+                    } else {
+                        System.out.println("Csak 1 és 5 közötti számot adhatsz meg!");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Hibás bemenet! Számot írj be.");
+                }
+            }
+
+            jegyek.put(nev, jegy);
+        }
+
+        // Összegzés
+        System.out.println("\nJegyek az " + osztalyNev + " osztályban:");
+        for (Map.Entry<String, Integer> entry : jegyek.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+
+        
     }
 
     // Irja ki egy txt file-ba az osztaly nevsorat.
