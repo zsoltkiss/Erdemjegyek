@@ -8,8 +8,8 @@ public class MainTest {
 
         fileProvider.createNevsorFile("3b");
 
-//        Rogzites rogzites = new Rogzites(fileProvider);
-//        rogzites.jegybeiras();
+       Rogzites rogzites = new Rogzites(fileProvider);
+       rogzites.jegybeiras();
 
 
 

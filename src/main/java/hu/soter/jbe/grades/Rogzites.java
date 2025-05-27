@@ -3,17 +3,18 @@ package hu.soter.jbe.grades;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Rogzites {
 
     private final FileProvider provider;
     private final Scanner scanner = new Scanner(System.in);
-    
 
     public Rogzites(FileProvider provider) {
         this.provider = provider;
@@ -56,13 +57,23 @@ public class Rogzites {
         System.out.print("Add meg a tantárgy nevét (pl. biologia): ");
         String tantargy = scanner.nextLine();
 
-        List<String> nevsor = Arrays.asList(
-            "Kiss Gábor",
-            "Nagy Júlia",
-            "Tóth Péter",
-            "Szabó Eszter",
-            "Kovács Bence"
-        );
+        // Névsor fájl létrehozása (ha még nem létezik), majd betöltése
+        File nevsorFile = provider.createNevsorFile(osztalyNev);
+        List<String> nevsor = new ArrayList<>();
+        try {
+            nevsor = Files.readAllLines(nevsorFile.toPath()).stream()
+                .map(String::trim)
+                .filter(line -> !line.isEmpty())
+                .collect(Collectors.toList());
+        } catch (IOException e) {
+            System.out.println("Hiba a névsor beolvasása közben: " + e.getMessage());
+            return;
+        }
+
+        if (nevsor.isEmpty()) {
+            System.out.println("A névsor fájl üres. Kérlek, töltsd fel a tanulók nevét a következő fájlba: " + nevsorFile.getAbsolutePath());
+            return;
+        }
 
         Map<String, Integer> jegyek = new LinkedHashMap<>();
 
@@ -101,6 +112,7 @@ public class Rogzites {
             System.out.println("Hiba a fájl írása közben: " + e.getMessage());
         }
     }
+
 
     // Irja ki egy txt file-ba az osztaly nevsorat.
     // A File-t a provider-tol kerje el.
