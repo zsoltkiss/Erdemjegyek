@@ -27,6 +27,22 @@ public class Rogzites {
     // Zarja be a scanner-t.
     public void fomenuMegjelenites() {
 
+        System.out.println("Válasszon a következők közül: \n1. Új névsor rögzítése\n2. Eredmény rögzítése ");
+        int valasztas = scanner.nextInt();
+
+        if (valasztas == 1) {
+            System.out.print("Kérem adjon meg egy számot: ");
+            int szam = scanner.nextInt();
+            System.out.println("Beírt szám: " + szam);
+        } else if (valasztas == 2) {
+            System.out.print("Kérem adjon meg egy szöveget: ");
+            String szoveg = scanner.next();
+            System.out.println("Beírt szöveg: " + szoveg);
+        } else {
+            System.out.println("Érvénytelen választás.");
+        }
+
+        bezaras();
     }
 
     // Hasznalja a scanner-t.

@@ -6,7 +6,11 @@ public class MainTest {
         
         FileProvider fileProvider = new FileProviderImpl();
 
-        fileProvider.createNevsorFile("3b");
+        Rogzites r = new Rogzites(fileProvider);
+
+        r.fomenuMegjelenites();
+
+//        fileProvider.createNevsorFile("3b");
 
 //        Rogzites rogzites = new Rogzites(fileProvider);
 //        rogzites.jegybeiras();
