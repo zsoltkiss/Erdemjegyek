@@ -1,5 +1,8 @@
 package hu.soter.jbe.grades;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -10,6 +13,7 @@ public class Rogzites {
 
     private final FileProvider provider;
     private final Scanner scanner = new Scanner(System.in);
+    
 
     public Rogzites(FileProvider provider) {
         this.provider = provider;
@@ -44,14 +48,14 @@ public class Rogzites {
     // Az erdemjegyek csak 1-5 szamok lehetnek.
     // Irja vissza a nevenkent a jegyeket a konzolra, nev: erdemjegy formaban.
     public void jegybeiras() {
-
         Scanner scanner = new Scanner(System.in);
 
-        // Osztály nevének bekérése
         System.out.print("Add meg az osztály nevét (pl. 2a): ");
         String osztalyNev = scanner.nextLine();
 
-        // Beégetett névsor
+        System.out.print("Add meg a tantárgy nevét (pl. biologia): ");
+        String tantargy = scanner.nextLine();
+
         List<String> nevsor = Arrays.asList(
             "Kiss Gábor",
             "Nagy Júlia",
@@ -60,10 +64,8 @@ public class Rogzites {
             "Kovács Bence"
         );
 
-        // Tároló a jegyeknek
         Map<String, Integer> jegyek = new LinkedHashMap<>();
 
-        // Érdemjegyek bekérése
         System.out.println("\nOsztály: " + osztalyNev);
         System.out.println("Add meg a tanulók érdemjegyeit:");
 
@@ -88,13 +90,16 @@ public class Rogzites {
             jegyek.put(nev, jegy);
         }
 
-        // Összegzés
-        System.out.println("\nJegyek az " + osztalyNev + " osztályban:");
-        for (Map.Entry<String, Integer> entry : jegyek.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
+        // Jegyek fájlba írása
+        File fajl = provider.createErdemjegyFile(osztalyNev, tantargy);
+        try (FileWriter writer = new FileWriter(fajl)) {
+            for (Map.Entry<String, Integer> entry : jegyek.entrySet()) {
+                writer.write(entry.getKey() + ": " + entry.getValue() + System.lineSeparator());
+            }
+            System.out.println("\nJegyek mentve a fájlba: " + fajl.getAbsolutePath());
+        } catch (IOException e) {
+            System.out.println("Hiba a fájl írása közben: " + e.getMessage());
         }
-
-        
     }
 
     // Irja ki egy txt file-ba az osztaly nevsorat.
