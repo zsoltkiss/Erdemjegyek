@@ -105,7 +105,27 @@ public class Rogzites {
     // Irja ki egy txt file-ba az osztaly nevsorat.
     // A File-t a provider-tol kerje el.
     public void nevsorMentes(List<String> nevek, String osztaly) {
-
+    try {
+        File nevsorFile;
+        
+        try {
+            nevsorFile = provider.getNevsorFile(osztaly);
+        } catch (NevsorNemLetezikException e) {
+            nevsorFile = provider.createNevsorFile(osztaly);
+        }
+        
+        try (FileWriter writer = new FileWriter(nevsorFile)) {
+            for (String nev : nevek) {
+                writer.write(nev);
+                writer.write(System.lineSeparator());
+            }
+        }
+        
+        System.out.println("Névsor mentve a fájlba: " + nevsorFile.getAbsolutePath());
+        
+        } catch (IOException e) {
+            System.out.println("Hiba a fájl írása közben: " + e.getMessage());
+        }
     }
 
     // Irja ki egy txt file-ba az osztaly eredmenyeit adott tantargybol.
