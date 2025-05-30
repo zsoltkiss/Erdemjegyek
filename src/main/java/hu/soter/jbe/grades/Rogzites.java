@@ -131,6 +131,7 @@ public class Rogzites {
     }
 
     private void bezaras() {
+    	System.out.println("Closing scanner...");
         scanner.close();
     }
 }
