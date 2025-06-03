@@ -3,11 +3,7 @@ package hu.soter.jbe.grades;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Rogzites {
 
@@ -31,9 +27,7 @@ public class Rogzites {
         int valasztas = scanner.nextInt();
 
         if (valasztas == 1) {
-            System.out.print("Kérem adjon meg egy számot: ");
-            int szam = scanner.nextInt();
-            System.out.println("Beírt szám: " + szam);
+            nevsorRogzites();
         } else if (valasztas == 2) {
             System.out.print("Kérem adjon meg egy szöveget: ");
             String szoveg = scanner.next();
@@ -53,6 +47,23 @@ public class Rogzites {
     // Irja vissza a konzolra az osztaly nevet es a megadott nevsort.
     public void nevsorRogzites() {
 
+        System.out.println("Írja be az osztályt! (Pl. 7a)");
+        String osztaly = scanner.next();
+
+        System.out.println("Írja be a neveket ENTER-rel elválasztva. Kilépés: Q");
+
+        List<String> names = new ArrayList<>();
+
+        String userInput;
+
+        while (!(userInput = scanner.nextLine()).equals("Q")) {
+            names.add(userInput);
+        }
+
+        // TODO: workaround! Fix this later!
+        List<String> fixedNames =  names.subList(1, names.size());
+
+        nevsorMentes(fixedNames, osztaly);
     }
 
     // Hasznalja a scanner-t.
